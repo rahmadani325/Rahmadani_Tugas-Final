@@ -2,7 +2,6 @@ package id.ac.unhas.projektodolist.db.note
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import java.util.*
 
 @Dao
 interface NoteDao {
@@ -10,13 +9,7 @@ interface NoteDao {
     fun getNotes(): LiveData<List<Note>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertJudul(judul: Note)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertNote(deskripsi: Note)
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertTenggatWaktu(tenggatWaktu: Date)
+    suspend fun insertNote(note: Note)
 
     @Delete
     suspend fun deleteNote(note: Note)

@@ -23,36 +23,23 @@ class NoteRepository(application: Application) {
         return notes
     }
 
-    fun insertJudul(judul: Note) = runBlocking {
+    fun insertNote(note: Note) = runBlocking {
         this.launch(Dispatchers.IO) {
-            noteDao?.insertJudul(judul)
+            noteDao?.insertNote(note)
         }
+    }
 
-        fun insertNote(deskripsi: Note) = runBlocking {
+    fun deleteNote(note: Note) {
+        runBlocking {
             this.launch(Dispatchers.IO) {
-                noteDao?.insertNote(deskripsi)
+                noteDao?.deleteNote(note)
             }
         }
+    }
 
-        fun insertTenggatWaktu(tenggatWaktu: Date) = runBlocking {
-            this.launch(Dispatchers.IO) {
-                noteDao?.insertTenggatWaktu(tenggatWaktu)
-            }
+    fun updateNote(note: Note) = runBlocking {
+        this.launch(Dispatchers.IO) {
+            noteDao?.updateNote(note)
         }
-
-        fun delete(note: Note) {
-            runBlocking {
-                this.launch(Dispatchers.IO) {
-                    noteDao?.deleteNote(note)
-                }
-            }
-        }
-
-        fun update(note: Note) = runBlocking {
-            this.launch(Dispatchers.IO) {
-                noteDao?.updateNote(note)
-            }
-        }
-
     }
 }
