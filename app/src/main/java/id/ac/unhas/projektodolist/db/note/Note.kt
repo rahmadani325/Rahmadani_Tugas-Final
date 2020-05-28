@@ -20,5 +20,8 @@ data class Note(
     val judul: String,
 
     @ColumnInfo(name = "note")
-    val note: String
+    val note: String,
+
+    @ColumnInfo(name = "selesai")
+    val isFinished: Boolean? = null
 )
