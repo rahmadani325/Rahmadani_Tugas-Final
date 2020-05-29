@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-xmlns:tools="http://schemas.android.com/tools"
-tools:context="id.ac.unhas.projektodolist.db.ui.main.InputNoteActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".db.ui.main.UpdateNoteActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +27,6 @@ tools:context="id.ac.unhas.projektodolist.db.ui.main.InputNoteActivity">
             android:inputType="textCapSentences|textAutoCorrect"
             android:hint="@string/judul_note"
             android:layout_marginBottom="20dp"/>
-
         <TextView
             android:id="@+id/list_note"
             android:layout_width="match_parent"
@@ -71,18 +71,40 @@ tools:context="id.ac.unhas.projektodolist.db.ui.main.InputNoteActivity">
             android:longClickable="false"
             android:focusable="false"/>
 
+        <CheckBox
+            android:id="@+id/checkbox_is_finished"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/selesai"
+            android:layout_marginBottom="15dp"/>
 
-
-        <Button
-            android:id="@+id/btn_simpan"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="15dp"
-            android:text="@string/simpan"
-            android:textSize="15sp"
-            android:textColor="@android:color/white"
-            android:background="@color/colorPrimaryDark" />
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="15dp"
+                android:text="@string/update"
+                android:textSize="15sp"
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimaryDark" />
+
+            <Button
+                android:id="@+id/btn_batal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="15dp"
+                android:text="@string/batal"
+                android:textSize="15sp"
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimaryDark"/>
+        </LinearLayout>
 
     </LinearLayout>
 </RelativeLayout>

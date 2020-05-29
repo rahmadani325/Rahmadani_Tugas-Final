@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -11,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.ac.unhas.projektodolist.R
 import id.ac.unhas.projektodolist.db.note.Note
+import id.ac.unhas.projektodolist.db.ui.main.NoteAdapter
+import id.ac.unhas.projektodolist.db.ui.main.NoteViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 

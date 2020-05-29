@@ -7,4 +7,9 @@
     <string name="tenggat_jam_belum_diset">Tenggat jam belum diatur</string>
     <string name="deskripsi_note">Deskripsi Note</string>
     <string name="simpan">Simpan</string>
+    <string name="selesai">Selesai</string>
+    <string name="update">Update</string>
+    <string name="batal">Batal</string>
+    <string name="add_note">Tambah Note</string>
+    <string name="update_note">Update Note</string>
 </resources>

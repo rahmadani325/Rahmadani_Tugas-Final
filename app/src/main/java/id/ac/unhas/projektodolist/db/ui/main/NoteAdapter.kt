@@ -41,7 +41,10 @@ class NoteAdapter(private val context: Context?, private val listener: (Note, In
 class NoteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bindItem(context: Context, note: Note, listener: (Note, Int) -> Unit) {
-        itemView.noteTV.text = note.note
+        itemView.item_judul_note.text = note.judul
+        itemView.item_tenggat_waktu.text = note.dueDate?.time.toString()
+        itemView.item_note.text = note.note
+
 
         itemView.setOnClickListener {
             listener(note, layoutPosition)
