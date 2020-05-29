@@ -42,4 +42,20 @@ class NoteRepository(application: Application) {
             noteDao?.updateNote(note)
         }
     }
+
+    fun searchResult(judul: String): LiveData<List<Note>>?{
+        return noteDao?.searchResult(judul)
+    }
+
+    fun sortByDueDateDescending(): LiveData<List<Note>>?{
+        return noteDao?.sortByDueDateDescending()
+    }
+
+    fun sortByCreatedDateAscending(): LiveData<List<Note>>?{
+        return noteDao?.sortByCreatedDateAscending()
+    }
+
+    fun sortByCreatedDateDescending(): LiveData<List<Note>>?{
+        return noteDao?.sortByCreatedDateDescending()
+    }
 }

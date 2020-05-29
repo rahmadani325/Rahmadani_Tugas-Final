@@ -7,11 +7,14 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import id.ac.unhas.projektodolist.db.note.Note
 import java.text.SimpleDateFormat
 import id.ac.unhas.projektodolist.R
+import id.ac.unhas.projektodolist.db.ui.main.Converter
+import java.time.ZonedDateTime
 import java.util.*
 
 
@@ -23,6 +26,8 @@ class UpdateNoteActivity : AppCompatActivity {
     private lateinit var editTextNote: EditText
     private lateinit var btnUpdate: Button
     private lateinit var btnBatal: Button
+    private lateinit var chkBoxIsFinished: CheckBox
+
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var note: Note
     private var kalender = Calendar.getInstance()
@@ -32,6 +37,7 @@ class UpdateNoteActivity : AppCompatActivity {
         const val EXTRA_WAKTU_UPDATE = "date-month-year"
         const val EXTRA_JAM_UPDATE = "hour:minutes"
         const val EXTRA_NOTE_UPDATE = "NOTE"
+        const val EXTRA_IS_FINISHED_UPDATE = "false"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,12 +49,13 @@ class UpdateNoteActivity : AppCompatActivity {
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // Back Buttonnya
 
 
-        editTextJudul = findViewById(R.id.judul_konten)
-        editTextWaktu = findViewById(R.id.tenggat_waktu_konten)
-        editTextJam = findViewById(R.id.tenggat_jam_konten)
-        editTextNote = findViewById(R.id.note_konten)
+        editTextJudul = findViewById(R.id.judul_content)
+        editTextWaktu = findViewById(R.id.tenggat_hari_content)
+        editTextJam = findViewById(R.id.tenggat_jam_content)
+        editTextNote = findViewById(R.id.note_content)
         btnUpdate = findViewById(R.id.btn_update)
         btnBatal = findViewById(R.id.btn_batal)
+        chkBoxIsFinished = findViewById(R.id.checkbox_is_finished)
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
         getExtra()
@@ -82,25 +89,25 @@ class UpdateNoteActivity : AppCompatActivity {
         editTextWaktu.setText(intent.getStringExtra(EXTRA_WAKTU_UPDATE))
         editTextJam.setText(intent.getStringExtra(EXTRA_JAM_UPDATE))
         editTextNote.setText(intent.getStringExtra(EXTRA_NOTE_UPDATE))
+        chkBoxIsFinished.isChecked = intent.getBooleanExtra(EXTRA_IS_FINISHED_UPDATE, false)
     }
 
-    private fun setDueDate(){
+    private fun setTenggatWaktu(){
         val date = kalender.get(Calendar.DAY_OF_MONTH)
         val month = kalender.get(Calendar.MONTH)
         val year = kalender.get(Calendar.YEAR)
 
         // Date picker dialog
-        val datePicker = DatePickerDialog(
-            this,
-            DatePickerDialog.OnDateSetListener{
-                    view, year, month, date ->
-                editTextWaktu.setText("" + date + "-" + (month+1) + "-" + year)
-            }, year, month, date)
-
-        datePicker.show()
+        val dateListener = DatePickerDialog.OnDateSetListener{ view, year, month, date ->
+            kalender.set(Calendar.YEAR, year)
+            kalender.set(Calendar.MONTH, month)
+            kalender.set(Calendar.DATE, date)
+            editTextWaktu.setText(SimpleDateFormat("EEE, MMM dd, yyyy").format(kalender.time))
+        }
+        DatePickerDialog(this, dateListener, year, month, date).show()
     }
 
-    private fun setDueTime(){
+    private fun setTenggatJam(){
         val hour = kalender.get(Calendar.HOUR_OF_DAY)
         val minute = kalender.get(Calendar.MINUTE)
 
@@ -114,13 +121,38 @@ class UpdateNoteActivity : AppCompatActivity {
     }
 
     private fun updateNote(note: Note){
+        val current = ZonedDateTime.now()
+        val updatedDate = Converter.dateToInt(current)
+
+        val strDueDate = editTextWaktu.text.toString().trim()
+        val dueDate = Converter.stringDateToInt(strDueDate)
+
+        val strDueHour = editTextJam.text.toString().trim()
+        val dueHour= Converter.stringTimeToInt(strDueHour)
+
+//        note.updateWaktu = updatedDate
+//        note.judul = editTextJudul.text.toString().trim()
+//        note.tenggatWaktu = editTextWaktu.text.toString().trim()
+//        note.tenggatJam = editTextJam.text.toString().trim()
+//        note.note = editTextNote.text.toString().trim()
+//
+//        noteViewModel.updateNote(note)
+//
+//        finish()
+
+        note.updateWaktu = updatedDate
         note.judul = editTextJudul.text.toString().trim()
-        note.tenggatWaktu = editTextWaktu.text.toString().trim()
-        note.tenggatJam = editTextJam.text.toString().trim()
+        note.tenggatWaktu = dueDate
+        note.tenggatJam =  dueHour
+        note.strTenggatWaktu = strDueDate
+        note.strTenggatJam = strDueHour
         note.note = editTextNote.text.toString().trim()
+        note.isFinished = chkBoxIsFinished.isChecked
 
         noteViewModel.updateNote(note)
-
+        if(chkBoxIsFinished.isChecked){
+            noteViewModel.deleteNote(note)
+        }
         finish()
     }
 }

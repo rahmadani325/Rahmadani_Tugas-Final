@@ -27,4 +27,16 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         noteRepository.updateNote(note)
     }
 
+    fun searchResult(title: String): LiveData<List<Note>>?{
+        return noteRepository.searchResult(title)
+    }
+
+    fun sortByDueDateDescending(): LiveData<List<Note>>?{
+        return noteRepository.sortByDueDateDescending()
+    }
+
+    fun sortByCreatedDateAscending(): LiveData<List<Note>>?{
+        return noteRepository.sortByCreatedDateAscending()
+    }
+
 }

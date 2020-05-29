@@ -10,10 +10,12 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import id.ac.unhas.projektodolist.R
 import id.ac.unhas.projektodolist.db.note.Note
+import id.ac.unhas.projektodolist.db.ui.main.NoteViewModel
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import id.ac.unhas.projektodolist.db.ui.main.Converter
 import java.util.*
 
 class InputNoteActivity : AppCompatActivity() {
@@ -29,7 +31,7 @@ class InputNoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.input_note)
         if(supportActionBar != null){
-            supportActionBar?.title = "Add a Task"
+            supportActionBar?.title = "Tambah Sebuah Note"
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // Back Button
 
@@ -98,8 +100,8 @@ class InputNoteActivity : AppCompatActivity() {
         val strTenggatWaktu = editTextDate.text.toString().trim()
         val tenggatWaktu = Converter.stringDateToInt(strTenggatWaktu)
 
-        val strTenggaJam = editTextTime.text.toString().trim()
-        val tenggatJam= Converter.stringTimeToInt(strTenggaJam)
+        val strTenggatJam = editTextTime.text.toString().trim()
+        val tenggatJam= Converter.stringTimeToInt(strTenggatJam)
 
         val judul = editTextTitle.text.toString().trim()
         val note = editTextNote.text.toString().trim()
@@ -112,7 +114,7 @@ class InputNoteActivity : AppCompatActivity() {
                 tenggatWaktu = tenggatWaktu,
                 tenggatJam = tenggatJam,
                 strTenggatWaktu = strTenggatWaktu,
-                strTenggatJam = strTenggaJam,
+                strTenggatJam = strTenggatJam,
                 note = note,
                 isFinished = false
             )

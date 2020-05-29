@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:padding="6dp"
+        android:padding="10dp"
         android:layout_height="wrap_content">
 
         <LinearLayout
@@ -17,7 +15,7 @@
             android:orientation="vertical"
             android:background="@drawable/bentuk_kotak"
             android:paddingVertical="10dp"
-            android:paddingHorizontal="10dp">
+            android:paddingHorizontal="15dp">
 
             <TextView
                 android:id="@+id/item_title_list"

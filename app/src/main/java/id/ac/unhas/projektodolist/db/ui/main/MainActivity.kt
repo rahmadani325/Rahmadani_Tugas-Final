@@ -14,10 +14,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.ac.unhas.projektodolist.R
 import id.ac.unhas.projektodolist.db.note.Note
-import id.ac.unhas.projektodolist.db.ui.main.NoteAdapter
-import id.ac.unhas.projektodolist.db.ui.main.NoteViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_details.view.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -98,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         searchText = "%$searchText%"
 
         noteViewModel.searchResult(searchText)?.observe(this, Observer {
-            noteAdapter.setLists(it)
+            noteAdapter.setNotes(it)
         })
     }
 
@@ -113,14 +112,14 @@ class MainActivity : AppCompatActivity() {
                     0 -> {
                         alert.setTitle(items[which])
                             .setPositiveButton("Ascending"){dialog, _ ->
-                                noteViewModel.getLists()?.observe(this, Observer {
-                                    noteAdapter.setLists(it)
+                                noteViewModel.getNotes()?.observe(this, Observer {
+                                    noteAdapter.setNotes(it)
                                 })
                                 dialog.dismiss()
                             }
                             .setNegativeButton("Descending"){dialog, _ ->
                                 noteViewModel.sortByDueDateDescending()?.observe(this, Observer {
-                                    noteAdapter.setLists(it)
+                                    noteAdapter.setNotes(it)
                                 })
                                 dialog.dismiss()
                             }
@@ -130,13 +129,13 @@ class MainActivity : AppCompatActivity() {
                         alert.setTitle(items[which])
                             .setPositiveButton("Ascending"){dialog, _ ->
                                 noteViewModel.sortByCreatedDateAscending()?.observe(this, Observer {
-                                    noteAdapter.setLists(it)
+                                    noteAdapter.setNotes(it)
                                 })
                                 dialog.dismiss()
                             }
                             .setNegativeButton("Descending"){dialog, _ ->
-                                noteViewModel.sortByCreatedDateDescending()?.observe(this, Observer {
-                                    noteAdapter.setLists(it)
+                                noteViewModel.sortByDueDateDescending()?.observe(this, Observer {
+                                    noteAdapter.setNotes(it)
                                 })
                                 dialog.dismiss()
                             }
@@ -161,13 +160,14 @@ class MainActivity : AppCompatActivity() {
                 }
                 1 -> {
 //                    noteViewModel.deleteNote(note)
-                    updateList(note)
+                      updateNote(note)
+
                 }
                 2 -> {
                     alert.setTitle("Hapus note ?")
                         .setMessage("Yakin?")
                         .setPositiveButton("Ya"){dialog, _ ->
-                            noteViewModel.deleteList(note)
+                            noteViewModel.deleteNote(note)
                             dialog.dismiss()
                         }
                         .setNegativeButton("Tidak"){dialog, _ ->
@@ -184,15 +184,15 @@ class MainActivity : AppCompatActivity() {
         val inflater = layoutInflater
         val dialogView = inflater.inflate(R.layout.item_details, null)
 
-        val title: TextView = dialogView.findViewById(R.id.title)
-        val createdDate: TextView = dialogView.findViewById(R.id.created_date_content)
-        val dueTime: TextView = dialogView.findViewById(R.id.due_time_content)
-        val note: TextView = dialogView.findViewById(R.id.note_content)
+        val judul: TextView = dialogView.findViewById(R.id.judul)
+        val buatWaktu: TextView = dialogView.findViewById(R.id.tenggat_hari_content)
+        val tenggatJam: TextView = dialogView.findViewById(R.id.tenggat_jam_content)
+        val additionalNote: TextView = dialogView.findViewById(R.id.note_content)
 
-        title.text = note.title
-        createdDate.text = note.strCreatedDate
-        dueTime.text = "${note.strDueDate}, ${note.strDueHour}"
-        note.text = toDoList.note
+        judul.text = note.judul
+        buatWaktu.text = note.strBuatWaktu
+        tenggatJam.text = "${note.strTenggatWaktu}, ${note.strTenggatJam}"
+        additionalNote.text = note.note
 
         alert.setView(dialogView)
             .setNeutralButton("OK"){dialog, _ ->
@@ -201,6 +201,17 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
+    private fun updateNote(note: Note){
+        val addIntent = Intent(this, UpdateNoteActivity::class.java)
+            .putExtra("EXTRA_LIST", note)
+            .putExtra(UpdateNoteActivity.EXTRA_JUDUL_UPDATE, note.judul)
+            .putExtra(UpdateNoteActivity.EXTRA_WAKTU_UPDATE, note.strTenggatWaktu)
+            .putExtra(UpdateNoteActivity.EXTRA_JAM_UPDATE, note.strTenggatJam)
+            .putExtra(UpdateNoteActivity.EXTRA_NOTE_UPDATE, note.note)
+            .putExtra(UpdateNoteActivity.EXTRA_IS_FINISHED_UPDATE, note.isFinished)
+
+        startActivity(addIntent)
+    }
 //    private fun showAlertDialogAdd() {
 //        val alert = AlertDialog.Builder(this)
 //
