@@ -14,11 +14,11 @@
     <string name="add_note">Tambah Note</string>
     <string name="update_note">Update Note</string>
     <string name="comma">,\u0020</string>
-    <string name="urutkan">Urutkan</string>
-    <string name="cari">Cari</string>
     <string name="buat_waktu">Tanggal buat:\u0020</string>
-    <string name="buat_waktu_content">Tanggal buat konten</string>
+    <string name="buat_waktu_konten">Tanggal buat konten</string>
     <string name="buat_jam_u0020">Jam buat:\u0020</string>
-    <string name="buat_jam_content">Jam buat konten</string>
+    <string name="buat_jam_konten">Jam buat konten</string>
     <string name="deskripsi_note_u0020">Deskripsi Note:\u0020</string>
+    <string name="sort">Urutkan</string>
+    <string name="search">Cari</string>
 </resources>

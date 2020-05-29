@@ -53,19 +53,19 @@ class UpdateNoteActivity : AppCompatActivity {
 
         getExtra()
 
-        editTextWaktu.setOnClickListener { view: View ->
+        editTextWaktu.setOnClickListener {
             setTenggatWaktu()
         }
 
-        editTextJam.setOnClickListener { view: View ->
+        editTextJam.setOnClickListener {
             setTenggatJam()
         }
 
-        btnUpdate.setOnClickListener { view: View ->
+        btnUpdate.setOnClickListener {
             updateNote(note)
         }
 
-        btnBatal.setOnClickListener { view: View ->
+        btnBatal.setOnClickListener {
             finish()
         }
     }

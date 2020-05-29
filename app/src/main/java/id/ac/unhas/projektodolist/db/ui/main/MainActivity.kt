@@ -5,6 +5,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.EditText
 import android.widget.TextView
+import android.content.Intent
+import android.widget.CheckBox
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -14,6 +16,7 @@ import id.ac.unhas.projektodolist.R
 import id.ac.unhas.projektodolist.db.note.Note
 import id.ac.unhas.projektodolist.db.ui.main.NoteAdapter
 import id.ac.unhas.projektodolist.db.ui.main.NoteViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -21,10 +24,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var noteViewModel: NoteViewModel
     private lateinit var noteAdapter: NoteAdapter
+    private lateinit var floatingActionButton: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        floatingActionButton = findViewById(R.id.fab)
 
         noteRV.layoutManager = LinearLayoutManager(this)
         noteAdapter = NoteAdapter(this) { note, i ->
@@ -36,6 +42,10 @@ class MainActivity : AppCompatActivity() {
         noteViewModel.getNotes()?.observe(this, Observer {
             noteAdapter.setNotes(it)
         })
+
+        floatingActionButton.setOnClickListener{
+            inputNote()
+        }
 
     }
 
@@ -53,67 +63,188 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showAlertDialogAdd() {
+    private fun inputNote(){
+        val addIntent = Intent(this, InputNoteActivity::class.java)
+        startActivity(addIntent)
+    }
+
+    private fun cariNote(menu: Menu?){
+        val item = menu?.findItem(R.id.search_list)
+
+        val searchView = item?.actionView as androidx.appcompat.widget.SearchView?
+        searchView?.isSubmitButtonEnabled = true
+
+        searchView?.setOnQueryTextListener(
+            object: androidx.appcompat.widget.SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if(query != null){
+                        getItemsFromDb(query)
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if(newText != null){
+                        getItemsFromDb(newText)
+                    }
+                    return true
+                }
+            }
+        )
+    }
+
+    private fun getItemsFromDb(searchText: String){
+        var searchText = searchText
+        searchText = "%$searchText%"
+
+        noteViewModel.searchResult(searchText)?.observe(this, Observer {
+            noteAdapter.setLists(it)
+        })
+    }
+
+    private fun sortNote(){
+        val items = arrayOf("Tenggat Waktu", "Waktu Buat")
+
+        val builder = AlertDialog.Builder(this)
         val alert = AlertDialog.Builder(this)
-
-        val editText = EditText(applicationContext)
-        editText.hint = "Enter your text"
-
-        alert.setTitle("New Note")
-        alert.setView(editText)
-
-        alert.setPositiveButton("Save") { dialog, _ ->
-            noteViewModel.insertNote(
-                Note(note = editText.text.toString())
-            )
-            dialog.dismiss()
-        }
-
-        alert.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        alert.show()
+        builder.setTitle("Sort by ...")
+            .setItems(items){dialog, which ->
+                when(which){
+                    0 -> {
+                        alert.setTitle(items[which])
+                            .setPositiveButton("Ascending"){dialog, _ ->
+                                noteViewModel.getLists()?.observe(this, Observer {
+                                    noteAdapter.setLists(it)
+                                })
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton("Descending"){dialog, _ ->
+                                noteViewModel.sortByDueDateDescending()?.observe(this, Observer {
+                                    noteAdapter.setLists(it)
+                                })
+                                dialog.dismiss()
+                            }
+                            .show()
+                    }
+                    1 -> {
+                        alert.setTitle(items[which])
+                            .setPositiveButton("Ascending"){dialog, _ ->
+                                noteViewModel.sortByCreatedDateAscending()?.observe(this, Observer {
+                                    noteAdapter.setLists(it)
+                                })
+                                dialog.dismiss()
+                            }
+                            .setNegativeButton("Descending"){dialog, _ ->
+                                noteViewModel.sortByCreatedDateDescending()?.observe(this, Observer {
+                                    noteAdapter.setLists(it)
+                                })
+                                dialog.dismiss()
+                            }
+                            .show()
+                    }
+                }
+            }
+        builder.show()
     }
 
     private fun showAlertMenu(note: Note) {
-        val items = arrayOf("Edit", "Delete")
+        val items = arrayOf("Details", "Edit", "Delete")
 
-        val builder =
-            AlertDialog.Builder(this)
-        builder.setItems(items) { dialog, which ->
+        val builder = AlertDialog.Builder(this)
+        val alert = AlertDialog.Builder(this)
+        builder.setItems(items){ dialog, which ->
             // the user clicked on colors[which]
             when (which) {
                 0 -> {
-                    showAlertDialogEdit(note)
+//                    showAlertDialogEdit(note)
+                    listDetails(alert, note)
                 }
                 1 -> {
-                    noteViewModel.deleteNote(note)
+//                    noteViewModel.deleteNote(note)
+                    updateList(note)
+                }
+                2 -> {
+                    alert.setTitle("Hapus note ?")
+                        .setMessage("Yakin?")
+                        .setPositiveButton("Ya"){dialog, _ ->
+                            noteViewModel.deleteList(note)
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("Tidak"){dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
                 }
             }
         }
         builder.show()
     }
 
-    private fun showAlertDialogEdit(note: Note) {
-        val alert = AlertDialog.Builder(this)
+    private fun listDetails(alert: AlertDialog.Builder, note: Note){
+        val inflater = layoutInflater
+        val dialogView = inflater.inflate(R.layout.item_details, null)
 
-        val editText = EditText(applicationContext)
-        editText.setText(note.note)
+        val title: TextView = dialogView.findViewById(R.id.title)
+        val createdDate: TextView = dialogView.findViewById(R.id.created_date_content)
+        val dueTime: TextView = dialogView.findViewById(R.id.due_time_content)
+        val note: TextView = dialogView.findViewById(R.id.note_content)
 
-        alert.setTitle("Edit Note")
-        alert.setView(editText)
+        title.text = note.title
+        createdDate.text = note.strCreatedDate
+        dueTime.text = "${note.strDueDate}, ${note.strDueHour}"
+        note.text = toDoList.note
 
-        alert.setPositiveButton("Update") { dialog, _ ->
-            note.note = editText.text.toString()
-            noteViewModel.updateNote(note)
-            dialog.dismiss()
-        }
-
-        alert.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        alert.show()
+        alert.setView(dialogView)
+            .setNeutralButton("OK"){dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
+
+//    private fun showAlertDialogAdd() {
+//        val alert = AlertDialog.Builder(this)
+//
+//        val editText = EditText(applicationContext)
+//        editText.hint = "Enter your text"
+//
+//        alert.setTitle("New Note")
+//        alert.setView(editText)
+//
+//        alert.setPositiveButton("Save") { dialog, _ ->
+//            noteViewModel.insertNote(
+//                Note(note = editText.text.toString())
+//            )
+//            dialog.dismiss()
+//        }
+//
+//        alert.setNegativeButton("Cancel") { dialog, _ ->
+//            dialog.dismiss()
+//        }
+//
+//        alert.show()
+//    }
+//
+//
+//
+//    private fun showAlertDialogEdit(note: Note) {
+//        val alert = AlertDialog.Builder(this)
+//
+//        val editText = EditText(applicationContext)
+//        editText.setText(note.note)
+//
+//        alert.setTitle("Edit Note")
+//        alert.setView(editText)
+//
+//        alert.setPositiveButton("Update") { dialog, _ ->
+//            note.note = editText.text.toString()
+//            noteViewModel.updateNote(note)
+//            dialog.dismiss()
+//        }
+//
+//        alert.setNegativeButton("Cancel") { dialog, _ ->
+//            dialog.dismiss()
+//        }
+//
+//        alert.show()
+//    }
 }
