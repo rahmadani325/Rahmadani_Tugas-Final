@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name="id.ac.unhas.projektodolist.db.ui.main.UpdateNoteActivity" />
-        <activity android:name="id.ac.unhas.projektodolist.db.ui.main.InputNoteActivity" />
+        <activity android:name="id.ac.unhas.projektodolist.db.InputNoteActivity" />
         <activity android:name="id.ac.unhas.projektodolist.db.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
