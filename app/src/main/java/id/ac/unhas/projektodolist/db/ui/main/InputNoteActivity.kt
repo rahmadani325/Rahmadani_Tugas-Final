@@ -92,19 +92,19 @@ class InputNoteActivity : AppCompatActivity() {
         val current = ZonedDateTime.now(ZoneId.of("+8"))
         val formatter = DateTimeFormatter.ofPattern("EEE, MMM dd, yyyy, HH:mm:ss")
 
-        val strCreatedDate = current.format(formatter)
-        val createdDate = Converter.dateToInt(current)
+        val strBuatWaktu = current.format(formatter)
+        val buatWaktu = Converter.dateToInt(current)
 
-        val strDueDate = editTextDate.text.toString().trim()
-        val dueDate = Converter.stringDateToInt(strDueDate)
+        val strTenggatWaktu = editTextDate.text.toString().trim()
+        val tenggatWaktu = Converter.stringDateToInt(strTenggatWaktu)
 
-        val strDueHour = editTextTime.text.toString().trim()
-        val dueHour= Converter.stringTimeToInt(strDueHour)
+        val strTenggaJam = editTextTime.text.toString().trim()
+        val tenggatJam= Converter.stringTimeToInt(strTenggaJam)
 
-        val title = editTextTitle.text.toString().trim()
+        val judul = editTextTitle.text.toString().trim()
         val note = editTextNote.text.toString().trim()
 
-        NoteViewModel.insertNote(
+        noteViewModel.insertNote(
             Note(
                 buatWaktu = buatWaktu,
                 strBuatWaktu = strBuatWaktu,

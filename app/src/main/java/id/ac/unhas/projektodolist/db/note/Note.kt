@@ -4,7 +4,9 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 @Entity(tableName = "note")
 data class Note(
     @PrimaryKey(autoGenerate = true)
@@ -12,33 +14,33 @@ data class Note(
     val id: Int? = null,
 
     @ColumnInfo(name = "buat_waktu")
-    val buatWaktu: Int? = null,
+    var buatWaktu: Int? = null,
 
     @ColumnInfo(name = "str_buat_waktu")
-    val strBuatWaktu: String? = null,
+    var strBuatWaktu: String? = null,
 
     @ColumnInfo(name = "update_waktu")
-    val updateWaktu: Int? = null,
+    var updateWaktu: Int? = null,
 
     @ColumnInfo(name = "tenggat_waktu")
-    val tenggatWaktu: Int? = null,
+    var tenggatWaktu: Int? = null,
 
     @ColumnInfo(name = "str_tenggat_waktu")
-    val strTenggatWaktu: String? = null,
+    var strTenggatWaktu: String? = null,
 
     @ColumnInfo(name = "tenggat_jam")
-    val tenggatJam: Int? = null,
+    var tenggatJam: Int? = null,
 
     @ColumnInfo(name = "str_tenggat_jam")
-    val strTenggatJam: String? = null,
+    var strTenggatJam: String? = null,
 
     @ColumnInfo(name = "judul")
-    val judul: String,
+    var judul: String,
 
     @ColumnInfo(name = "note")
-    val note: String,
+    var note: String,
 
     @ColumnInfo(name = "selesai")
-    val isFinished: Boolean? = null
+    var isFinished: Boolean? = null
 
 )  : Parcelable
