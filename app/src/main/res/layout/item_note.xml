@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/judul_note"
                 android:textSize="18sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/holo_blue_dark"
                 android:textStyle="bold"
                 android:layout_marginBottom="5sp"/>
 
@@ -33,14 +33,15 @@
                 android:layout_height="wrap_content"
                 android:text="@string/tenggat_hari"
                 android:textSize="15sp"
-                android:textColor="@android:color/black"/>
+                android:textColor="@android:color/holo_blue_dark"/>
 
             <TextView
                 android:id="@+id/item_note"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/deskripsi_note"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:textColor="@android:color/holo_blue_light"/>
         </LinearLayout>
     </RelativeLayout>
 </layout>

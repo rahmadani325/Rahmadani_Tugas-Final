@@ -55,10 +55,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.addMenu -> showAlertDialogAdd()
+        when(item.itemId){
+            R.id.sort_list -> sortNote()
         }
-
         return super.onOptionsItemSelected(item)
     }
 
