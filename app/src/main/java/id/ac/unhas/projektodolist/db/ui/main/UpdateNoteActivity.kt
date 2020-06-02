@@ -18,8 +18,7 @@ import java.time.ZonedDateTime
 import java.util.*
 
 
-
-class UpdateNoteActivity : AppCompatActivity {
+class UpdateNoteActivity : AppCompatActivity() {
     private lateinit var editTextJudul: EditText
     private lateinit var editTextWaktu: EditText
     private lateinit var editTextJam: EditText

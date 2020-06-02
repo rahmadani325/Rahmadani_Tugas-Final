@@ -105,18 +105,18 @@ class MainActivity : AppCompatActivity() {
 
         val builder = AlertDialog.Builder(this)
         val alert = AlertDialog.Builder(this)
-        builder.setTitle("Sort by ...")
+        builder.setTitle("Urutkan berdasarkan : ")
             .setItems(items){dialog, which ->
                 when(which){
                     0 -> {
                         alert.setTitle(items[which])
-                            .setPositiveButton("Ascending"){dialog, _ ->
+                            .setPositiveButton("Menaik"){dialog, _ ->
                                 noteViewModel.getNotes()?.observe(this, Observer {
                                     noteAdapter.setNotes(it)
                                 })
                                 dialog.dismiss()
                             }
-                            .setNegativeButton("Descending"){dialog, _ ->
+                            .setNegativeButton("Menurun"){dialog, _ ->
                                 noteViewModel.sortByDueDateDescending()?.observe(this, Observer {
                                     noteAdapter.setNotes(it)
                                 })
@@ -126,13 +126,13 @@ class MainActivity : AppCompatActivity() {
                     }
                     1 -> {
                         alert.setTitle(items[which])
-                            .setPositiveButton("Ascending"){dialog, _ ->
+                            .setPositiveButton("Menaik"){dialog, _ ->
                                 noteViewModel.sortByCreatedDateAscending()?.observe(this, Observer {
                                     noteAdapter.setNotes(it)
                                 })
                                 dialog.dismiss()
                             }
-                            .setNegativeButton("Descending"){dialog, _ ->
+                            .setNegativeButton("Menurun"){dialog, _ ->
                                 noteViewModel.sortByDueDateDescending()?.observe(this, Observer {
                                     noteAdapter.setNotes(it)
                                 })
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAlertMenu(note: Note) {
-        val items = arrayOf("Details", "Edit", "Delete")
+        val items = arrayOf("Info", "Edit", "Hapus")
 
         val builder = AlertDialog.Builder(this)
         val alert = AlertDialog.Builder(this)
