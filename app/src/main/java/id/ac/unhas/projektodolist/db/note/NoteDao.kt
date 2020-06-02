@@ -14,20 +14,20 @@ interface NoteDao {
     suspend fun insertNote(note: Note)
 
     @Delete
-    suspend fun deleteNote(note: Note)
+    suspend fun hapusNote(note: Note)
 
     @Update
     suspend fun updateNote(note: Note)
 
     @Query("SELECT * FROM note WHERE judul LIKE :judul")
-    fun searchResult(judul: String): LiveData<List<Note>>
+    fun cariHasil(judul: String): LiveData<List<Note>>
 
     @Query("SELECT * FROM note ORDER BY tenggat_waktu DESC, tenggat_jam DESC")
-    fun sortByDueDateDescending(): LiveData<List<Note>>
+    fun urutbyTenggatWaktuMenurun(): LiveData<List<Note>>
 
     @Query("SELECT * FROM note ORDER BY buat_waktu ASC")
-    fun sortByCreatedDateAscending(): LiveData<List<Note>>
+    fun urutbyBuatWaktuMenaik(): LiveData<List<Note>>
 
     @Query("SELECT * FROM note ORDER BY buat_waktu DESC")
-    fun sortByCreatedDateDescending(): LiveData<List<Note>>
+    fun urutbyBuatWaktuMenurun(): LiveData<List<Note>>
 }

@@ -11,21 +11,21 @@ import androidx.lifecycle.ViewModelProvider
 import id.ac.unhas.projektodolist.R
 import id.ac.unhas.projektodolist.db.note.Note
 import id.ac.unhas.projektodolist.db.ui.main.NoteViewModel
+import id.ac.unhas.projektodolist.db.ui.main.Converter
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import id.ac.unhas.projektodolist.db.ui.main.Converter
 import java.util.*
 
 class InputNoteActivity : AppCompatActivity() {
-    private lateinit var editTextTitle: EditText
-    private lateinit var editTextDate: EditText
+    private lateinit var editTextJudul: EditText
+    private lateinit var editTextWaktu: EditText
     private lateinit var editTextNote: EditText
-    private lateinit var editTextTime: EditText
-    private lateinit var btnSave: Button
+    private lateinit var editTextJam: EditText
+    private lateinit var btnSimpan: Button
     private lateinit var noteViewModel: NoteViewModel
-    private var calendar = Calendar.getInstance()
+    private var kalender = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,22 +35,22 @@ class InputNoteActivity : AppCompatActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true) // Back Button
 
-        editTextTitle = findViewById(R.id.judul_content)
-        editTextDate = findViewById(R.id.tenggat_hari_content)
+        editTextJudul = findViewById(R.id.judul_content)
+        editTextWaktu = findViewById(R.id.tenggat_hari_content)
         editTextNote = findViewById(R.id.note_content)
-        editTextTime = findViewById(R.id.tenggat_jam_content)
-        btnSave = findViewById(R.id.btn_simpan)
+        editTextJam = findViewById(R.id.tenggat_jam_content)
+        btnSimpan = findViewById(R.id.btn_simpan)
         noteViewModel = ViewModelProvider(this).get(NoteViewModel::class.java)
 
-        editTextDate.setOnClickListener{
+        editTextWaktu.setOnClickListener{
             setDueDate()
         }
 
-        editTextTime.setOnClickListener {
+        editTextJam.setOnClickListener {
             setDueTime()
         }
 
-        btnSave.setOnClickListener{
+        btnSimpan.setOnClickListener{
             saveList()
         }
     }
@@ -62,29 +62,29 @@ class InputNoteActivity : AppCompatActivity() {
     }
 
     private fun setDueDate(){
-        val date = calendar.get(Calendar.DAY_OF_MONTH)
-        val month = calendar.get(Calendar.MONTH)
-        val year = calendar.get(Calendar.YEAR)
+        val date = kalender.get(Calendar.DAY_OF_MONTH)
+        val month = kalender.get(Calendar.MONTH)
+        val year = kalender.get(Calendar.YEAR)
 
         // Date picker dialog
         val dateListener = DatePickerDialog.OnDateSetListener{ view, year, month, date ->
-            calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, month)
-            calendar.set(Calendar.DATE, date)
-            editTextDate.setText(SimpleDateFormat("EEE, MMM dd, yyyy").format(calendar.time))
+            kalender.set(Calendar.YEAR, year)
+            kalender.set(Calendar.MONTH, month)
+            kalender.set(Calendar.DATE, date)
+            editTextWaktu.setText(SimpleDateFormat("EEE, MMM dd, yyyy").format(kalender.time))
         }
 
         DatePickerDialog(this, dateListener, year, month, date).show()
     }
 
     private fun setDueTime(){
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
+        val hour = kalender.get(Calendar.HOUR_OF_DAY)
+        val minute = kalender.get(Calendar.MINUTE)
 
         val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hour, minute ->
-            calendar.set(Calendar.HOUR_OF_DAY, hour)
-            calendar.set(Calendar.MINUTE, minute)
-            editTextTime.setText(SimpleDateFormat("HH:mm").format(calendar.time))
+            kalender.set(Calendar.HOUR_OF_DAY, hour)
+            kalender.set(Calendar.MINUTE, minute)
+            editTextJam.setText(SimpleDateFormat("HH:mm").format(kalender.time))
         }
 
         TimePickerDialog(this, timeSetListener, hour, minute, true).show()
@@ -97,14 +97,26 @@ class InputNoteActivity : AppCompatActivity() {
         val strBuatWaktu = current.format(formatter)
         val buatWaktu = Converter.dateToInt(current)
 
-        val strTenggatWaktu = editTextDate.text.toString().trim()
-        val tenggatWaktu = Converter.stringDateToInt(strTenggatWaktu)
+        var tenggatWaktu: Int? = null
+        var tenggatJam: Int? = null
+        var strTenggatWaktu: String? = ""
+        var strTenggatJam: String? = ""
 
-        val strTenggatJam = editTextTime.text.toString().trim()
-        val tenggatJam= Converter.stringTimeToInt(strTenggatJam)
+        if(editTextJam.text.isNotEmpty()) {
+            strTenggatJam = editTextJam.text.toString().trim()
+            tenggatJam = Converter.stringTimeToInt(strTenggatJam) // Konversi ke integer
+        }
 
-        val judul = editTextTitle.text.toString().trim()
+//        val strTenggatWaktu = editTextDate.text.toString().trim()
+//        val tenggatWaktu = Converter.stringDateToInt(strTenggatWaktu)
+//
+//        val strTenggatJam = editTextTime.text.toString().trim()
+//        val tenggatJam= Converter.stringTimeToInt(strTenggatJam)
+//
+        val judul = editTextJudul.text.toString().trim()
         val note = editTextNote.text.toString().trim()
+
+
 
         noteViewModel.insertNote(
             Note(

@@ -29,10 +29,10 @@ class NoteRepository(application: Application) {
         }
     }
 
-    fun deleteNote(note: Note) {
+    fun hapusNote(note: Note) {
         runBlocking {
             this.launch(Dispatchers.IO) {
-                noteDao?.deleteNote(note)
+                noteDao?.hapusNote(note)
             }
         }
     }
@@ -43,19 +43,19 @@ class NoteRepository(application: Application) {
         }
     }
 
-    fun searchResult(judul: String): LiveData<List<Note>>?{
-        return noteDao?.searchResult(judul)
+    fun cariHasil(judul: String): LiveData<List<Note>>?{
+        return noteDao?.cariHasil(judul)
     }
 
-    fun sortByDueDateDescending(): LiveData<List<Note>>?{
-        return noteDao?.sortByDueDateDescending()
+    fun urutbyTenggatWaktuMenurun(): LiveData<List<Note>>?{
+        return noteDao?.urutbyTenggatWaktuMenurun()
     }
 
-    fun sortByCreatedDateAscending(): LiveData<List<Note>>?{
-        return noteDao?.sortByCreatedDateAscending()
+    fun urutbyBuatWaktuMenaik(): LiveData<List<Note>>?{
+        return noteDao?.urutbyBuatWaktuMenaik()
     }
 
-    fun sortByCreatedDateDescending(): LiveData<List<Note>>?{
-        return noteDao?.sortByCreatedDateDescending()
+    fun urutbyBuatWaktuMenurun(): LiveData<List<Note>>?{
+        return noteDao?.urutbyBuatWaktuMenurun()
     }
 }

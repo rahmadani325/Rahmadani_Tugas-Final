@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
-            R.id.sort_list -> sortNote()
+            R.id.urut_note -> urutNote()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun cariNote(menu: Menu?){
-        val item = menu?.findItem(R.id.search_list)
+        val item = menu?.findItem(R.id.cari_note)
 
         val searchView = item?.actionView as androidx.appcompat.widget.SearchView?
         searchView?.isSubmitButtonEnabled = true
@@ -95,12 +95,12 @@ class MainActivity : AppCompatActivity() {
         var searchText = searchText
         searchText = "%$searchText%"
 
-        noteViewModel.searchResult(searchText)?.observe(this, Observer {
+        noteViewModel.cariHasil(searchText)?.observe(this, Observer {
             noteAdapter.setNotes(it)
         })
     }
 
-    private fun sortNote(){
+    private fun urutNote(){
         val items = arrayOf("Tenggat Waktu", "Waktu Buat")
 
         val builder = AlertDialog.Builder(this)
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
                                 dialog.dismiss()
                             }
                             .setNegativeButton("Menurun"){dialog, _ ->
-                                noteViewModel.sortByDueDateDescending()?.observe(this, Observer {
+                                noteViewModel.urutbyTenggatWaktuMenurun()?.observe(this, Observer {
                                     noteAdapter.setNotes(it)
                                 })
                                 dialog.dismiss()
@@ -127,13 +127,13 @@ class MainActivity : AppCompatActivity() {
                     1 -> {
                         alert.setTitle(items[which])
                             .setPositiveButton("Menaik"){dialog, _ ->
-                                noteViewModel.sortByCreatedDateAscending()?.observe(this, Observer {
+                                noteViewModel.urutbyBuatWaktuMenaik()?.observe(this, Observer {
                                     noteAdapter.setNotes(it)
                                 })
                                 dialog.dismiss()
                             }
                             .setNegativeButton("Menurun"){dialog, _ ->
-                                noteViewModel.sortByDueDateDescending()?.observe(this, Observer {
+                                noteViewModel.urutbyTenggatWaktuMenurun()?.observe(this, Observer {
                                     noteAdapter.setNotes(it)
                                 })
                                 dialog.dismiss()
@@ -154,11 +154,9 @@ class MainActivity : AppCompatActivity() {
             // the user clicked on colors[which]
             when (which) {
                 0 -> {
-//                    showAlertDialogEdit(note)
                     listDetails(alert, note)
                 }
                 1 -> {
-//                    noteViewModel.deleteNote(note)
                       updateNote(note)
 
                 }
@@ -166,7 +164,7 @@ class MainActivity : AppCompatActivity() {
                     alert.setTitle("Hapus note ?")
                         .setMessage("Yakin?")
                         .setPositiveButton("Ya"){dialog, _ ->
-                            noteViewModel.deleteNote(note)
+                            noteViewModel.hapusNote(note)
                             dialog.dismiss()
                         }
                         .setNegativeButton("Tidak"){dialog, _ ->

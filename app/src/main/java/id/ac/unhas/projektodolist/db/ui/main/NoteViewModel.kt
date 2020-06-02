@@ -19,24 +19,28 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         noteRepository.insertNote(note)
     }
 
-    fun deleteNote(note: Note) {
-        noteRepository.deleteNote(note)
+    fun hapusNote(note: Note) {
+        noteRepository.hapusNote(note)
     }
 
     fun updateNote(note: Note) {
         noteRepository.updateNote(note)
     }
 
-    fun searchResult(title: String): LiveData<List<Note>>?{
-        return noteRepository.searchResult(title)
+    fun cariHasil(title: String): LiveData<List<Note>>?{
+        return noteRepository.cariHasil(title)
     }
 
-    fun sortByDueDateDescending(): LiveData<List<Note>>?{
-        return noteRepository.sortByDueDateDescending()
+    fun urutbyTenggatWaktuMenurun(): LiveData<List<Note>>?{
+        return noteRepository.urutbyTenggatWaktuMenurun()
     }
 
-    fun sortByCreatedDateAscending(): LiveData<List<Note>>?{
-        return noteRepository.sortByCreatedDateAscending()
+    fun urutbyBuatWaktuMenaik(): LiveData<List<Note>>?{
+        return noteRepository.urutbyBuatWaktuMenaik()
+    }
+
+    fun urutbyBuatWaktuMenurun(): LiveData<List<Note>>?{
+        return noteRepository.urutbyBuatWaktuMenurun()
     }
 
 }

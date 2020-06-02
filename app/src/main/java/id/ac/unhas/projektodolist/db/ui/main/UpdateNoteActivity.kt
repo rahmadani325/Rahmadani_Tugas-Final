@@ -14,6 +14,7 @@ import id.ac.unhas.projektodolist.db.note.Note
 import java.text.SimpleDateFormat
 import id.ac.unhas.projektodolist.R
 import id.ac.unhas.projektodolist.db.ui.main.Converter
+import id.ac.unhas.projektodolist.db.ui.main.NoteViewModel
 import java.time.ZonedDateTime
 import java.util.*
 
@@ -120,14 +121,33 @@ class UpdateNoteActivity : AppCompatActivity() {
     }
 
     private fun updateNote(note: Note){
-        val current = ZonedDateTime.now()
-        val updatedDate = Converter.dateToInt(current)
+        if(chkBoxIsFinished.isChecked){
+            noteViewModel.hapusNote(note)
+        } else {
 
-        val strDueDate = editTextWaktu.text.toString().trim()
-        val dueDate = Converter.stringDateToInt(strDueDate)
+            val current = ZonedDateTime.now()
+            val updatedDate = Converter.dateToInt(current)
 
-        val strDueHour = editTextJam.text.toString().trim()
-        val dueHour= Converter.stringTimeToInt(strDueHour)
+            var tenggatWaktu: Int? = null
+            var strTenggatWaktu: String? = ""
+            var tenggatJam: Int? = null
+            var strTenggatJam: String? = ""
+
+            if (editTextWaktu.text.isNotEmpty()) {
+                strTenggatWaktu = editTextWaktu.text.toString().trim()
+                tenggatWaktu = Converter.stringDateToInt(strTenggatWaktu)
+            }
+
+            if (editTextJam.text.isNotEmpty()) {
+                strTenggatJam = editTextJam.text.toString().trim()
+                tenggatJam = Converter.stringTimeToInt(strTenggatJam) // Convert it to int
+            }
+
+//        val strDueDate = editTextWaktu.text.toString().trim()
+//        val dueDate = Converter.stringDateToInt(strDueDate)
+//
+//        val strDueHour = editTextJam.text.toString().trim()
+//        val dueHour= Converter.stringTimeToInt(strDueHour)
 
 //        note.updateWaktu = updatedDate
 //        note.judul = editTextJudul.text.toString().trim()
@@ -139,18 +159,16 @@ class UpdateNoteActivity : AppCompatActivity() {
 //
 //        finish()
 
-        note.updateWaktu = updatedDate
-        note.judul = editTextJudul.text.toString().trim()
-        note.tenggatWaktu = dueDate
-        note.tenggatJam =  dueHour
-        note.strTenggatWaktu = strDueDate
-        note.strTenggatJam = strDueHour
-        note.note = editTextNote.text.toString().trim()
-        note.isFinished = chkBoxIsFinished.isChecked
+            note.updateWaktu = updatedDate
+            note.judul = editTextJudul.text.toString().trim()
+            note.tenggatWaktu = tenggatWaktu
+            note.tenggatJam = tenggatJam
+            note.strTenggatWaktu = strTenggatWaktu
+            note.strTenggatJam = strTenggatJam
+            note.note = editTextNote.text.toString().trim()
+            note.isFinished = chkBoxIsFinished.isChecked
 
-        noteViewModel.updateNote(note)
-        if(chkBoxIsFinished.isChecked){
-            noteViewModel.deleteNote(note)
+            noteViewModel.updateNote(note)
         }
         finish()
     }
