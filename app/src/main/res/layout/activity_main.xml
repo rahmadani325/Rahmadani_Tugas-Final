@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/add"
-        android:src="@drawable/ic_add_black_24dp"/>
+        android:src="@drawable/ic_add_black_24dp"
+        android:tooltipText="@string/btnTambah"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
