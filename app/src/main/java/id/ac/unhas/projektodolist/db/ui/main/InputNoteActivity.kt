@@ -102,6 +102,11 @@ class InputNoteActivity : AppCompatActivity() {
         var strTenggatWaktu: String? = ""
         var strTenggatJam: String? = ""
 
+        if(editTextWaktu.text.isNotEmpty()) {
+            strTenggatWaktu = editTextWaktu.text.toString().trim()
+            tenggatWaktu = Converter.stringDateToInt(strTenggatWaktu) // Konversi ke integer
+        }
+
         if(editTextJam.text.isNotEmpty()) {
             strTenggatJam = editTextJam.text.toString().trim()
             tenggatJam = Converter.stringTimeToInt(strTenggatJam) // Konversi ke integer

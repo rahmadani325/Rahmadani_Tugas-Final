@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         val dialogView = inflater.inflate(R.layout.item_details, null)
 
         val judul: TextView = dialogView.findViewById(R.id.judul)
-        val buatWaktu: TextView = dialogView.findViewById(R.id.tenggat_hari_content)
+        val buatWaktu: TextView = dialogView.findViewById(R.id.buat_waktu_content)
         val tenggatJam: TextView = dialogView.findViewById(R.id.tenggat_jam_content)
         val additionalNote: TextView = dialogView.findViewById(R.id.note_content)
 
