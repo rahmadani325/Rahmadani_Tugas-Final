@@ -1,3 +1,25 @@
 <resources>
-    <string name="app_name">projektodolist</string>
+    <string name="app_name">Note To Do List App</string>
+    <string name="add">Add</string>
+    <string name="judul_note">Judul</string>
+    <string name="tenggat_hari">Tenggat Waktu</string>
+    <string name="tenggat_hari_belum_diset">Tenggat hari belum diatur</string>
+    <string name="tenggat_jam">Tenggat Jam</string>
+    <string name="tenggat_jam_belum_diset">Tenggat jam belum diatur</string>
+    <string name="deskripsi_note">Deskripsi Note</string>
+    <string name="simpan">Simpan</string>
+    <string name="selesai">Selesai</string>
+    <string name="update">Update</string>
+    <string name="batal">Batal</string>
+    <string name="add_note">Tambah Note</string>
+    <string name="update_note">Update Note</string>
+    <string name="comma">,\u0020</string>
+    <string name="buat_waktu">Tanggal buat:\u0020</string>
+    <string name="buat_waktu_konten">Tanggal buat konten</string>
+    <string name="tenggat_waktu_u0020">Tenggat waktu:\u0020</string>
+    <string name="tenggat_waktu_konten">Tenggat waktu konten</string>
+    <string name="deskripsi_note_u0020">Deskripsi Note:\u0020</string>
+    <string name="sort">Urutkan</string>
+    <string name="search">Cari</string>
+    <string name="btnTambah">Tambah</string>
 </resources>
